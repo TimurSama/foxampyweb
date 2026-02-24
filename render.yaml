@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: foxampy
+    env: node
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run convert-pixels && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+    
+    # Автодеплой из main ветки
+    autoDeploy: true
+    
+    # Хелсчек
+    healthCheckPath: /
+    
+    # Таймаут сборки (10 минут)
+    buildFilter:
+      paths:
+        - app/**
+        - public/**
+        - package.json
+        - next.config.js
+        - tsconfig.json
+        - tailwind.config.js
