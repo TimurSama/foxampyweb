@@ -27,8 +27,10 @@ module.exports = {
         'accent-gray': '#888888',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['VT323', 'monospace'],
         mono: ['JetBrains Mono', 'monospace'],
+        pixel: ['Press Start 2P', 'cursive'],
+        vt323: ['VT323', 'monospace'],
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out forwards',

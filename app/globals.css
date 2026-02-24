@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&family=VT323&family=Press+Start+2P&display=swap');
 
 :root {
   /* Monochrome palette */
@@ -37,10 +37,12 @@ html {
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  image-rendering: pixelated;
 }
 
 /* Selection */

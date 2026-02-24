@@ -13,7 +13,6 @@ interface Company {
   url: string
   logo: string
   role: string
-  period?: string
   description: string
   achievements: string[]
 }
@@ -25,7 +24,6 @@ const companies: Company[] = [
     url: 'https://done.co.il',
     logo: 'DONE',
     role: 'Brand & Creative Lead',
-    period: '2023-2024',
     description: 'Комплексная работа над экосистемой бренда и цифровыми продуктами',
     achievements: [
       'Проработка брендинга и айдентики',
@@ -40,7 +38,6 @@ const companies: Company[] = [
     url: 'https://unicap.invest.org',
     logo: 'UNICAP',
     role: 'Creative Director',
-    period: '2022-2023',
     description: 'Работа с портфелем инвестиционных проектов в роли Креативного Директора',
     achievements: [
       'Разработка маркетинговой стратегии фонда',
@@ -55,7 +52,6 @@ const companies: Company[] = [
     url: 'https://www.culligan.com',
     logo: 'CULLIGAN',
     role: 'Marketing Specialist',
-    period: '2020-2022',
     description: 'Работа в штате отдела маркетинга международной корпорации',
     achievements: [
       'Работа над тендерами и корпоративными закупками',
@@ -70,7 +66,6 @@ const companies: Company[] = [
     url: 'https://realting.uz',
     logo: 'REALTING',
     role: 'Product & Research Lead',
-    period: '2019-2020',
     description: 'Глубинное исследование рынка недвижимости и разработка DeFi-решения',
     achievements: [
       'Глубинное исследование рынка B2B, B2C, B2G сегментов',
@@ -98,11 +93,6 @@ function CompanyCard({ company, index }: { company: Company; index: number }) {
           </span>
           <span className="text-xs text-text-tertiary ml-2">↗</span>
         </div>
-        {company.period && (
-          <span className="text-xs text-text-tertiary font-mono">
-            {company.period}
-          </span>
-        )}
       </div>
 
       {/* Role */}
