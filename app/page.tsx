@@ -88,13 +88,21 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Preload pixel data
+    // Защитный таймаут - показываем контент через 2 секунды в любом случае
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false)
+    }, 2000)
+
+    // Пытаемся загрузить данные
     Promise.all([
       fetch('/data/pixel-portrait-1.json').then(r => r.json()).catch(() => null),
       fetch('/data/pixel-portrait-2.json').then(r => r.json()).catch(() => null)
     ]).then(() => {
-      setTimeout(() => setIsLoading(false), 1500)
+      clearTimeout(timeoutId)
+      setIsLoading(false)
     })
+
+    return () => clearTimeout(timeoutId)
   }, [])
 
   if (isLoading) {

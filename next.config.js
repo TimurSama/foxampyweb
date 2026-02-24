@@ -1,37 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Отключаем статический экспорт для Render (SSR)
-  // Render поддерживает полноценный Next.js с сервером
+  // Static export для Render (надежнее чем SSR на Free плане)
+  output: 'export',
+  distDir: 'dist',
   
   images: {
-    // Временно отключаем оптимизацию для локальной сборки
-    // На Render sharp будет работать нормально
-    unoptimized: process.env.NODE_ENV === 'development',
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
+    unoptimized: true,
   },
   
-  // Отключаем SWC минимизацию для экономии памяти
-  swcMinify: true,
+  // trailingSlash для правильных путей
+  trailingSlash: true,
   
-  // Оптимизации для production
-  compress: true,
-  poweredByHeader: false,
-  
-  // Исключаем тяжелые файлы из сборки
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-      }
-    }
-    return config
-  },
+  // Отключаем source maps для уменьшения размера
+  productionBrowserSourceMaps: false,
 }
 
 module.exports = nextConfig

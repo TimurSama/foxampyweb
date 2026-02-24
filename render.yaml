@@ -1,29 +1,45 @@
 services:
   - type: web
     name: foxampy
-    env: node
-    runtime: node
+    runtime: static
     plan: free
+    
+    # Директория со статическими файлами
+    staticPublishPath: ./dist
+    
+    # Build команда
     buildCommand: npm install && npm run convert-pixels && npm run build
-    startCommand: npm start
+    
+    # Переменные окружения
     envVars:
       - key: NODE_ENV
         value: production
       - key: NEXT_TELEMETRY_DISABLED
         value: "1"
     
-    # Автодеплой из main ветки
+    # Автодеплой
     autoDeploy: true
     
-    # Хелсчек
-    healthCheckPath: /
-    
-    # Таймаут сборки (10 минут)
-    buildFilter:
-      paths:
-        - app/**
-        - public/**
-        - package.json
-        - next.config.js
-        - tsconfig.json
-        - tailwind.config.js
+    # Роуты (все пути ведут на index.html для SPA)
+    routes:
+      - type: rewrite
+        source: /_next/static/*
+        destination: /_next/static/*
+      - type: rewrite
+        source: /data/*
+        destination: /data/*
+      - type: rewrite
+        source: /photo/*
+        destination: /photo/*
+      - type: rewrite
+        source: /video/*
+        destination: /video/*
+      - type: rewrite
+        source: /fation/*
+        destination: /fation/*
+      - type: rewrite
+        source: /architecture/*
+        destination: /architecture/*
+      - type: rewrite
+        source: /*
+        destination: /index.html

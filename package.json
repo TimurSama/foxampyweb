@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:static": "next build --config next.config.static.js",
-    "start": "next start",
+    "start": "npx serve dist",
     "lint": "next lint",
     "convert-pixels": "node tools/pixel-converter.js"
   },
@@ -22,6 +21,7 @@
     "postcss": "^8.4.38",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "serve": "^14.2.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss": "^3.4.3",
     "three": "^0.164.0"
