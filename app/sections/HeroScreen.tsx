@@ -12,7 +12,6 @@ export function HeroScreen() {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    // Load pixel data
     Promise.all([
       fetch('/data/pixel-portrait-1.json').then(r => r.json()),
       fetch('/data/pixel-portrait-2.json').then(r => r.json())
@@ -28,28 +27,34 @@ export function HeroScreen() {
 
     const tl = gsap.timeline()
 
-    // Animate text
+    // Animate text with stagger
     tl.fromTo('.hero-title',
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
-      1.5
+      { y: 60, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' },
+      0.5
     )
     
     tl.fromTo('.hero-subtitle',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
-      1.8
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
+      0.8
     )
 
     tl.fromTo('.hero-description',
-      { y: 20, opacity: 0 },
+      { y: 30, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
-      2.0
+      1.0
     )
 
     tl.fromTo('.hero-portrait',
-      { x: 100, opacity: 0 },
-      { x: 0, opacity: 1, duration: 1, ease: 'power3.out' },
+      { x: 80, opacity: 0 },
+      { x: 0, opacity: 1, duration: 1.2, ease: 'power3.out' },
+      0.3
+    )
+
+    tl.fromTo('.hero-tag',
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'power2.out' },
       1.2
     )
 
@@ -58,19 +63,11 @@ export function HeroScreen() {
 
   return (
     <section id="hero" className="section bg-bg-primary relative overflow-hidden">
-      {/* Background grid */}
-      <div className="absolute inset-0 opacity-10">
-        <div 
-          className="w-full h-full"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: '50px 50px'
-          }}
-        />
-      </div>
+      {/* Subtle grid background */}
+      <div className="absolute inset-0 grid-pattern opacity-50" />
+      
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary/80" />
 
       <div className="container mx-auto px-4 h-full flex flex-col justify-center relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-screen py-20">
@@ -80,10 +77,10 @@ export function HeroScreen() {
             <PixelColumns />
             
             <div className="mt-8 text-center lg:text-left">
-              <h1 className="hero-title text-4xl md:text-6xl font-black mb-2">
+              <h1 className="hero-title text-4xl md:text-6xl font-black mb-2 tracking-tight">
                 <span className="gradient-text">TIMUR</span>
               </h1>
-              <h2 className="hero-subtitle text-2xl md:text-3xl font-light text-text-secondary tracking-widest">
+              <h2 className="hero-subtitle text-2xl md:text-3xl font-light text-text-secondary tracking-[0.3em]">
                 CADIK
               </h2>
             </div>
@@ -92,8 +89,8 @@ export function HeroScreen() {
           {/* Right side - Portrait */}
           <div className="hero-portrait flex flex-col items-center lg:items-end">
             <div className="relative">
-              {/* Glow effect */}
-              <div className="absolute -inset-4 bg-accent-cyan/20 blur-3xl rounded-full opacity-50" />
+              {/* Subtle glow */}
+              <div className="absolute -inset-4 bg-white/5 blur-3xl rounded-full" />
               
               {/* Pixel portraits */}
               <div className="relative flex gap-4">
@@ -108,14 +105,14 @@ export function HeroScreen() {
                   <PixelCanvas 
                     data={pixelData2} 
                     pixelScale={2.5}
-                    className="opacity-70 hidden md:block"
+                    className="opacity-60 hidden md:block"
                   />
                 )}
               </div>
 
-              {/* Decorative frame */}
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 border-r-2 border-b-2 border-accent-cyan/50" />
-              <div className="absolute -top-4 -left-4 w-24 h-24 border-l-2 border-t-2 border-accent-cyan/50" />
+              {/* Decorative frame - monochrome */}
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 border-r border-b border-text-tertiary/50" />
+              <div className="absolute -top-4 -left-4 w-24 h-24 border-l border-t border-text-tertiary/50" />
             </div>
 
             {/* Description */}
@@ -126,14 +123,14 @@ export function HeroScreen() {
                 требующими системного подхода и междисциплинарного мышления.
               </p>
               
-              <div className="mt-6 flex gap-3 justify-end">
-                <span className="px-3 py-1 text-xs border border-accent-cyan/30 text-accent-cyan rounded-full">
+              <div className="mt-6 flex gap-3 justify-end flex-wrap">
+                <span className="hero-tag px-3 py-1 text-xs border border-border-default text-text-secondary rounded-full hover:border-border-hover transition-colors">
                   Blockchain
                 </span>
-                <span className="px-3 py-1 text-xs border border-accent-purple/30 text-accent-purple rounded-full">
+                <span className="hero-tag px-3 py-1 text-xs border border-border-default text-text-secondary rounded-full hover:border-border-hover transition-colors">
                   AI
                 </span>
-                <span className="px-3 py-1 text-xs border border-cyan-500/30 text-cyan-400 rounded-full">
+                <span className="hero-tag px-3 py-1 text-xs border border-border-default text-text-secondary rounded-full hover:border-border-hover transition-colors">
                   Design
                 </span>
               </div>
@@ -143,9 +140,9 @@ export function HeroScreen() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
-        <span className="text-[10px] tracking-widest text-text-secondary">SCROLL</span>
-        <div className="w-px h-8 bg-gradient-to-b from-accent-cyan to-transparent" />
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+        <span className="text-[10px] tracking-[0.3em] text-text-tertiary uppercase">Scroll</span>
+        <div className="w-px h-8 bg-gradient-to-b from-text-tertiary to-transparent" />
       </div>
     </section>
   )

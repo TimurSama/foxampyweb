@@ -20,7 +20,7 @@ function LoadingScreen() {
             />
           ))}
         </div>
-        <span className="text-text-secondary text-xs tracking-widest">FOXAMPY</span>
+        <span className="text-text-secondary text-xs tracking-[0.3em] uppercase">Foxampy</span>
       </div>
     </div>
   )
@@ -71,10 +71,10 @@ function Navigation() {
         <button
           key={item.id}
           onClick={() => scrollToSection(item.id)}
-          className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-mono transition-all duration-300 ${
+          className={`w-8 h-8 flex items-center justify-center text-[10px] font-mono transition-all duration-300 border ${
             activeSection === item.id
-              ? 'bg-accent-cyan text-bg-primary'
-              : 'bg-white/5 text-text-secondary hover:bg-white/10'
+              ? 'bg-text-primary text-bg-primary border-text-primary' 
+              : 'bg-transparent text-text-tertiary border-border-subtle hover:border-border-hover hover:text-text-secondary'
           }`}
         >
           {item.label}
@@ -84,16 +84,21 @@ function Navigation() {
   )
 }
 
+// Noise overlay component
+function NoiseOverlay() {
+  return <div className="noise-overlay" />
+}
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Защитный таймаут - показываем контент через 2 секунды в любом случае
+    // Safety timeout - show content after 2 seconds anyway
     const timeoutId = setTimeout(() => {
       setIsLoading(false)
     }, 2000)
 
-    // Пытаемся загрузить данные
+    // Try to load data
     Promise.all([
       fetch('/data/pixel-portrait-1.json').then(r => r.json()).catch(() => null),
       fetch('/data/pixel-portrait-2.json').then(r => r.json()).catch(() => null)
@@ -111,6 +116,7 @@ export default function Home() {
 
   return (
     <main className="relative">
+      <NoiseOverlay />
       <Navigation />
       <HeroScreen />
       <NeuroPlanetScreen />

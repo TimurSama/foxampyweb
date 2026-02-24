@@ -7,7 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Wave dots background
+// Monochrome wave dots background
 function WaveBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -27,35 +27,35 @@ function WaveBackground() {
     }
 
     const draw = () => {
-      ctx.fillStyle = '#0a0a0f'
+      ctx.fillStyle = '#0a0a0a'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      const cols = Math.ceil(canvas.width / 30)
-      const rows = Math.ceil(canvas.height / 30)
+      const cols = Math.ceil(canvas.width / 40)
+      const rows = Math.ceil(canvas.height / 40)
 
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
-          const waveX = Math.sin(y * 0.1 + time) * 20
-          const waveY = Math.cos(x * 0.1 + time) * 10
+          const waveX = Math.sin(y * 0.08 + time) * 15
+          const waveY = Math.cos(x * 0.08 + time) * 8
           
-          const px = x * 30 + waveX
-          const py = y * 30 + waveY
+          const px = x * 40 + waveX
+          const py = y * 40 + waveY
           
           const distFromCenter = Math.sqrt(
             Math.pow(px - canvas.width / 2, 2) + 
             Math.pow(py - canvas.height / 2, 2)
           )
           
-          const opacity = Math.max(0, 1 - distFromCenter / 500) * 0.5
+          const opacity = Math.max(0, 1 - distFromCenter / 600) * 0.3
           
           ctx.beginPath()
-          ctx.arc(px, py, 2, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(0, 240, 255, ${opacity})`
+          ctx.arc(px, py, 1.5, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`
           ctx.fill()
         }
       }
 
-      time += 0.02
+      time += 0.015
       animationId = requestAnimationFrame(draw)
     }
 
@@ -74,7 +74,7 @@ function WaveBackground() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.4 }}
     />
   )
 }
@@ -85,7 +85,6 @@ function FashionGallery() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   useEffect(() => {
-    // Scan fashion folder
     const fashionImages = [
       '/fation/photo_2026-01-30_12-26-56.jpg',
       '/fation/photo_2026-01-30_12-27-09.jpg',
@@ -101,25 +100,28 @@ function FashionGallery() {
 
   return (
     <div className="mb-20">
-      <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
-        <span className="w-8 h-px bg-accent-cyan" />
+      <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-text-primary tracking-wide">
+        <span className="w-8 h-px bg-text-tertiary" />
         ДИЗАЙНЕРСКАЯ КОЛЛЕКЦИЯ
       </h3>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {images.map((src, i) => (
           <div
             key={i}
-            className="gallery-item aspect-[3/4] overflow-hidden rounded-lg cursor-pointer group"
+            className="gallery-item aspect-[3/4] overflow-hidden cursor-pointer group relative border border-border-subtle"
             onClick={() => setSelectedImage(src)}
           >
             <img
               src={src}
               alt={`Fashion ${i + 1}`}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <span className="text-[10px] text-white/70 tracking-wider">0{i + 1}</span>
+            </div>
           </div>
         ))}
       </div>
@@ -127,7 +129,7 @@ function FashionGallery() {
       {/* Lightbox */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
           <img 
@@ -136,7 +138,7 @@ function FashionGallery() {
             className="max-w-full max-h-full object-contain"
           />
           <button 
-            className="absolute top-4 right-4 text-white text-2xl"
+            className="absolute top-4 right-4 text-text-secondary hover:text-text-primary text-2xl transition-colors"
             onClick={() => setSelectedImage(null)}
           >
             ✕
@@ -166,14 +168,14 @@ function VideoShowcase() {
 
   return (
     <div>
-      <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
-        <span className="w-8 h-px bg-accent-purple" />
-        ВИДЕОРЕЛИКИ
+      <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-text-primary tracking-wide">
+        <span className="w-8 h-px bg-text-tertiary" />
+        ВИДЕОРЕЛИЗЫ
       </h3>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {videos.map((video, i) => (
-          <div key={i} className="video-card relative aspect-video bg-bg-secondary rounded-lg overflow-hidden group">
+          <div key={i} className="video-card relative aspect-video bg-bg-secondary border border-border-subtle overflow-hidden group">
             {playing === i ? (
               <video
                 src={video.src}
@@ -184,19 +186,19 @@ function VideoShowcase() {
               />
             ) : (
               <>
-                <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/20 to-accent-purple/20" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <button 
                     onClick={() => setPlaying(i)}
-                    className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform"
+                    className="w-16 h-16 border border-text-secondary/50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform hover:border-text-primary"
                   >
-                    <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-text-primary ml-1" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M8 5v14l11-7z" />
                     </svg>
                   </button>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                  <h4 className="text-white font-medium">{video.title}</h4>
+                  <h4 className="text-text-primary font-medium text-sm">{video.title}</h4>
                 </div>
               </>
             )}
@@ -213,12 +215,12 @@ export function GalleryScreen() {
   useGSAP(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.gallery-item',
-        { y: 50, opacity: 0 },
+        { y: 40, opacity: 0 },
         {
           y: 0,
           opacity: 1,
           duration: 0.6,
-          stagger: 0.1,
+          stagger: 0.08,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: '.gallery-item',
@@ -229,7 +231,7 @@ export function GalleryScreen() {
       )
 
       gsap.fromTo('.video-card',
-        { scale: 0.9, opacity: 0 },
+        { scale: 0.95, opacity: 0 },
         {
           scale: 1,
           opacity: 1,
@@ -238,6 +240,21 @@ export function GalleryScreen() {
           ease: 'power3.out',
           scrollTrigger: {
             trigger: '.video-card',
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      )
+
+      gsap.fromTo('.gallery-title',
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.gallery-title',
             start: 'top 85%',
             toggleActions: 'play none none reverse'
           }
@@ -258,8 +275,8 @@ export function GalleryScreen() {
       
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-black mb-4">
-            <span className="gradient-text">ГАЛЕРЕЯ</span>
+          <h2 className="gallery-title text-3xl md:text-5xl font-black mb-4 text-text-primary tracking-tight">
+            ГАЛЕРЕЯ
           </h2>
           <p className="text-text-secondary max-w-xl mx-auto">
             Визуальные исследования и креативные проекты

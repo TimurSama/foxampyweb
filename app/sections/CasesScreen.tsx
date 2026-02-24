@@ -87,12 +87,6 @@ const cases: CaseItem[] = [
   }
 ]
 
-const typeColors = {
-  research: '#7c3aed',
-  development: '#00f0ff',
-  case: '#00d4aa'
-}
-
 const typeLabels = {
   research: 'ИССЛЕДОВАНИЕ',
   development: 'РАЗРАБОТКА',
@@ -104,10 +98,9 @@ function CaseCard({ item, index }: { item: CaseItem; index: number }) {
 
   return (
     <div
-      className="case-card group relative overflow-hidden rounded-xl bg-bg-secondary/50 border border-white/5 backdrop-blur-sm transition-all duration-500"
+      className="case-card group relative overflow-hidden bg-bg-secondary border border-border-subtle transition-all duration-500 hover:border-border-hover hover:bg-bg-tertiary"
       style={{
-        transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
-        boxShadow: isHovered ? `0 20px 40px ${typeColors[item.type]}20` : 'none'
+        transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -118,16 +111,11 @@ function CaseCard({ item, index }: { item: CaseItem; index: number }) {
           <img
             src={item.image}
             alt={item.title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0"
           />
         ) : (
-          <div 
-            className="w-full h-full flex items-center justify-center"
-            style={{
-              background: `linear-gradient(135deg, ${typeColors[item.type]}20 0%, transparent 100%)`
-            }}
-          >
-            <span className="text-4xl opacity-30">
+          <div className="w-full h-full flex items-center justify-center bg-bg-tertiary">
+            <span className="text-4xl text-text-muted opacity-50">
               {item.type === 'research' && '◉'}
               {item.type === 'development' && '◈'}
               {item.type === 'case' && '◆'}
@@ -136,25 +124,19 @@ function CaseCard({ item, index }: { item: CaseItem; index: number }) {
         )}
         
         {/* Type badge */}
-        <div 
-          className="absolute top-3 left-3 px-2 py-1 text-[9px] font-bold tracking-wider rounded"
-          style={{ 
-            background: `${typeColors[item.type]}30`,
-            color: typeColors[item.type]
-          }}
-        >
+        <div className="absolute top-3 left-3 px-2 py-1 text-[9px] font-bold tracking-wider bg-bg-primary/80 text-text-secondary border border-border-subtle">
           {typeLabels[item.type]}
         </div>
 
         {/* Year */}
-        <div className="absolute top-3 right-3 text-[10px] text-text-secondary">
+        <div className="absolute top-3 right-3 text-[10px] text-text-tertiary font-mono">
           {item.year}
         </div>
       </div>
 
       {/* Content */}
       <div className="p-4">
-        <h3 className="text-sm font-bold text-text-primary mb-2 line-clamp-2 group-hover:text-accent-cyan transition-colors">
+        <h3 className="text-sm font-bold text-text-primary mb-2 line-clamp-2 group-hover:text-white transition-colors">
           {item.title}
         </h3>
         <p className="text-[11px] text-text-secondary leading-relaxed line-clamp-2 mb-3">
@@ -166,7 +148,7 @@ function CaseCard({ item, index }: { item: CaseItem; index: number }) {
           {item.tags.map(tag => (
             <span 
               key={tag}
-              className="px-2 py-0.5 text-[9px] bg-white/5 text-text-secondary rounded"
+              className="px-2 py-0.5 text-[9px] bg-bg-primary text-text-tertiary border border-border-subtle"
             >
               {tag}
             </span>
@@ -176,11 +158,8 @@ function CaseCard({ item, index }: { item: CaseItem; index: number }) {
 
       {/* Hover line */}
       <div 
-        className="absolute bottom-0 left-0 h-0.5 transition-all duration-300"
-        style={{
-          width: isHovered ? '100%' : '0%',
-          background: typeColors[item.type]
-        }}
+        className="absolute bottom-0 left-0 h-px bg-text-secondary transition-all duration-300"
+        style={{ width: isHovered ? '100%' : '0%' }}
       />
     </div>
   )
@@ -228,13 +207,12 @@ export function CasesScreen() {
       )
 
       gsap.fromTo('.case-card',
-        { y: 50, opacity: 0, scale: 0.95 },
+        { y: 40, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          scale: 1,
           duration: 0.6,
-          stagger: 0.08,
+          stagger: 0.06,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: '.cases-grid',
@@ -255,23 +233,17 @@ export function CasesScreen() {
       className="section bg-bg-primary relative overflow-hidden"
     >
       {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
+      <div className="absolute inset-0 opacity-30">
         <div 
-          className="w-full h-full"
-          style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }}
+          className="w-full h-full dot-pattern"
         />
       </div>
 
       <div className="container mx-auto px-4 py-20 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="cases-title text-3xl md:text-5xl font-black mb-4">
-            <span className="gradient-text">КЕЙСЫ</span>
-            <span className="text-text-primary"> & </span>
-            <span className="text-accent-purple">ИССЛЕДОВАНИЯ</span>
+          <h2 className="cases-title text-3xl md:text-5xl font-black mb-4 text-text-primary tracking-tight">
+            КЕЙСЫ <span className="text-text-tertiary">&</span> ИССЛЕДОВАНИЯ
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">
             Архив проектов, научных работ и экспериментальных разработок
@@ -284,10 +256,10 @@ export function CasesScreen() {
             <button
               key={type}
               onClick={() => setFilter(type)}
-              className={`filter-btn px-4 py-2 text-xs font-medium rounded-lg transition-all duration-300 ${
+              className={`filter-btn px-4 py-2 text-xs font-medium border transition-all duration-300 ${
                 filter === type 
-                  ? 'bg-accent-cyan text-bg-primary' 
-                  : 'bg-white/5 text-text-secondary hover:bg-white/10'
+                  ? 'bg-text-primary text-bg-primary border-text-primary' 
+                  : 'bg-transparent text-text-secondary border-border-subtle hover:border-border-hover hover:text-text-primary'
               }`}
             >
               {type === 'all' && 'ВСЕ'}
@@ -307,17 +279,17 @@ export function CasesScreen() {
 
         {/* Stats */}
         <div className="mt-16 grid grid-cols-3 gap-4 max-w-2xl mx-auto">
-          <div className="text-center p-4 border border-white/10 rounded-lg">
-            <div className="text-2xl font-bold text-accent-cyan">{cases.filter(c => c.type === 'case').length}</div>
-            <div className="text-[10px] text-text-secondary uppercase tracking-wider">Кейсов</div>
+          <div className="text-center p-4 border border-border-subtle bg-bg-secondary">
+            <div className="text-2xl font-bold text-text-primary">{cases.filter(c => c.type === 'case').length}</div>
+            <div className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">Кейсов</div>
           </div>
-          <div className="text-center p-4 border border-white/10 rounded-lg">
-            <div className="text-2xl font-bold text-accent-purple">{cases.filter(c => c.type === 'research').length}</div>
-            <div className="text-[10px] text-text-secondary uppercase tracking-wider">Исследований</div>
+          <div className="text-center p-4 border border-border-subtle bg-bg-secondary">
+            <div className="text-2xl font-bold text-text-primary">{cases.filter(c => c.type === 'research').length}</div>
+            <div className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">Исследований</div>
           </div>
-          <div className="text-center p-4 border border-white/10 rounded-lg">
-            <div className="text-2xl font-bold text-emerald-400">{cases.filter(c => c.type === 'development').length}</div>
-            <div className="text-[10px] text-text-secondary uppercase tracking-wider">Разработок</div>
+          <div className="text-center p-4 border border-border-subtle bg-bg-secondary">
+            <div className="text-2xl font-bold text-text-primary">{cases.filter(c => c.type === 'development').length}</div>
+            <div className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">Разработок</div>
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@ export function PixelColumns() {
   const columnsRef = useRef<HTMLDivElement[]>([])
   const pixelsRef = useRef<ColumnPixel[][]>([[], [], []])
 
-  // ASCII characters for column texture
+  // ASCII characters for column texture - monochrome
   const chars = '▓▒░█▄▀■□▪▫▬▲▼◄►◊○●◘◙◦'
   
   useEffect(() => {
@@ -27,16 +27,15 @@ export function PixelColumns() {
     const columns = [0, 1, 2]
     columns.forEach((colIdx) => {
       const pixels: ColumnPixel[] = []
-      const baseX = colIdx * 15 // Column spacing
+      const baseX = colIdx * 15
       
       // Create column shape
       for (let y = 0; y < 60; y++) {
-        // Column width varies by height (tapered)
         const width = y < 5 || y > 55 ? 6 : y < 10 || y > 50 ? 8 : 10
         const startX = baseX + (12 - width) / 2
         
         for (let x = 0; x < width; x++) {
-          if (Math.random() > 0.3) { // Random gaps for pixelated look
+          if (Math.random() > 0.3) {
             pixels.push({
               x: startX + x,
               y,
@@ -44,7 +43,7 @@ export function PixelColumns() {
               targetY: y,
               speed: 0.5 + Math.random() * 1,
               delay: Math.random() * 1.5 + colIdx * 0.3,
-              opacity: 0.1 + Math.random() * 0.4
+              opacity: 0.15 + Math.random() * 0.35
             })
           }
         }
@@ -57,12 +56,12 @@ export function PixelColumns() {
             if (Math.random() > 0.4) {
               pixels.push({
                 x: baseX + x,
-                y: y,
+                y,
                 char: '▓',
                 targetY: y,
                 speed: 1 + Math.random(),
                 delay: 0.5 + Math.random() * 0.5,
-                opacity: 0.6 + Math.random() * 0.4
+                opacity: 0.5 + Math.random() * 0.4
               })
             }
           }
@@ -77,7 +76,6 @@ export function PixelColumns() {
     const container = containerRef.current
     if (!container) return
 
-    // Animate each column
     columnsRef.current.forEach((col, idx) => {
       if (!col) return
       
@@ -91,7 +89,7 @@ export function PixelColumns() {
         },
         {
           y: 0,
-          opacity: (i) => pixelsRef.current[idx][i]?.opacity || 0.3,
+          opacity: (i) => pixelsRef.current[idx][i]?.opacity || 0.2,
           scale: 1,
           duration: 1,
           stagger: {
@@ -122,24 +120,23 @@ export function PixelColumns() {
           {pixelsRef.current[colIdx].map((pixel, i) => (
             <span
               key={i}
-              className="column-pixel absolute text-cyan-400 select-none"
+              className="column-pixel absolute text-text-secondary select-none"
               style={{
                 left: `${pixel.x * 8}px`,
                 top: `${pixel.y * 8}px`,
                 opacity: pixel.opacity,
-                textShadow: '0 0 4px rgba(0, 240, 255, 0.5)'
               }}
             >
               {pixel.char}
             </span>
           ))}
           
-          {/* Column sign */}
+          {/* Column sign - monochrome */}
           <div 
-            className="absolute left-1/2 -translate-x-1/2 w-[100px] py-3 px-2 border border-cyan-500/30 bg-bg-primary/80 backdrop-blur-sm"
+            className="absolute left-1/2 -translate-x-1/2 w-[100px] py-3 px-2 border border-border-subtle bg-bg-secondary/90 backdrop-blur-sm"
             style={{ top: '120px' }}
           >
-            <p className="text-[8px] text-cyan-300 text-center leading-tight">
+            <p className="text-[8px] text-text-secondary text-center leading-tight tracking-wider">
               {colIdx === 0 && 'КРЕАТИВНЫЙ'}
               {colIdx === 1 && 'FOXAMPY'}
               {colIdx === 2 && 'ИННОВАТОР'}

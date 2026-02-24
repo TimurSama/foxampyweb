@@ -28,17 +28,28 @@ interface PixelCanvasProps {
   className?: string
   animated?: boolean
   pixelScale?: number
+  monochrome?: boolean
 }
 
 export function PixelCanvas({ 
   data, 
   className = '', 
   animated = true,
-  pixelScale = 3 
+  pixelScale = 3,
+  monochrome = false
 }: PixelCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const pixelsRef = useRef<Pixel[]>([])
   const animationRef = useRef<number>()
+
+  // Convert color to monochrome
+  const toMonochrome = useCallback((r: number, g: number, b: number, a: number) => {
+    if (!monochrome) return { r, g, b, a }
+    const gray = Math.round(0.299 * r + 0.587 * g + 0.114 * b)
+    // Add slight contrast
+    const adjusted = gray > 128 ? Math.min(255, gray + 20) : Math.max(0, gray - 20)
+    return { r: adjusted, g: adjusted, b: adjusted, a }
+  }, [monochrome])
 
   const drawPixels = useCallback((progress: number = 1) => {
     const canvas = canvasRef.current
@@ -63,7 +74,9 @@ export function PixelCanvas({
       
       const alpha = pixel.a * pixelProgress / 255
       
-      ctx.fillStyle = `rgba(${pixel.r}, ${pixel.g}, ${pixel.b}, ${alpha})`
+      const color = toMonochrome(pixel.r, pixel.g, pixel.b, alpha)
+      
+      ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
       ctx.fillRect(
         x * pixelScale, 
         y * pixelScale, 
@@ -71,7 +84,7 @@ export function PixelCanvas({
         pixelScale - 0.5
       )
     })
-  }, [pixelScale])
+  }, [pixelScale, toMonochrome])
 
   useGSAP(() => {
     if (!animated || !canvasRef.current) return
