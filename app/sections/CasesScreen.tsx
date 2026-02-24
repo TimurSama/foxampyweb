@@ -11,9 +11,9 @@ interface CaseItem {
   id: string
   title: string
   type: 'research' | 'development' | 'case'
-  description: string
   year: string
-  tags: string[]
+  description: string
+  fullDescription: string
   image?: string
 }
 
@@ -22,68 +22,73 @@ const cases: CaseItem[] = [
     id: 'arch-1',
     title: 'Архитектурная визуализация',
     type: 'case',
-    description: '3D моделирование и визуализация архитектурных концептов для городских пространств.',
     year: '2024',
-    tags: ['3D', 'Architecture', 'Visualization'],
+    description: '3D моделирование и визуализация архитектурных концептов.',
+    fullDescription: '3D моделирование и визуализация архитектурных концептов для городских пространств. Использование современных инструментов рендеринга и параметрического дизайна для создания фотореалистичных изображений и интерактивных презентаций.\n\nИнструменты: Blender, Rhino, Grasshopper, Unreal Engine.',
     image: '/architecture/image_2024-08-21_21-32-32.png'
   },
   {
     id: 'research-1',
     title: 'Токеномика водных ресурсов',
     type: 'research',
-    description: 'Исследование механизмов токенизации природных ресурсов на блокчейн-платформах.',
     year: '2024',
-    tags: ['Blockchain', 'Research', 'Tokenomics']
+    description: 'Исследование механизмов токенизации природных ресурсов.',
+    fullDescription: 'Исследование механизмов токенизации природных ресурсов на блокчейн-платформах. Разработка концепции VODeco - децентрализованной экосистемы управления водными ресурсами.\n\nФокус: двойная токеномика, DAO-управление, IoT-интеграция, AI-мониторинг.',
+    image: undefined
   },
   {
     id: 'dev-1',
     title: 'AI-ассистент для трейдинга',
     type: 'development',
-    description: 'Разработка нейросетевого ассистента для анализа рыночных паттернов.',
     year: '2023',
-    tags: ['AI', 'Trading', 'ML']
+    description: 'Нейросетевой ассистент для анализа рыночных паттернов.',
+    fullDescription: 'Разработка нейросетевого ассистента для анализа рыночных паттернов. Модели машинного обучения для прогнозирования ценовых движений и автоматизации торговых стратегий.\n\nТехнологии: Python, TensorFlow, WebSocket API, Technical Analysis.',
+    image: undefined
   },
   {
     id: 'arch-2',
     title: 'Пространственный дизайн',
     type: 'case',
-    description: 'Концептуальные разработки интерьеров и экстерьеров с использованием генеративного дизайна.',
     year: '2024',
-    tags: ['Design', 'Generative', '3D'],
+    description: 'Концептуальные разработки интерьеров и экстерьеров.',
+    fullDescription: 'Концептуальные разработки интерьеров и экстерьеров с использованием генеративного дизайна. Алгоритмический подход к созданию уникальных пространственных решений.\n\nПодход: генеративный дизайн, параметрическая архитектура, sustainable design.',
     image: '/architecture/image_2024-08-21_21-32-39.png'
   },
   {
     id: 'research-2',
     title: 'Нейроинтерфейсы в UX',
     type: 'research',
-    description: 'Изучение возможностей BCI для создания иммерсивных пользовательских интерфейсов.',
     year: '2024',
-    tags: ['BCI', 'UX', 'Neuro']
+    description: 'Изучение возможностей BCI для пользовательских интерфейсов.',
+    fullDescription: 'Изучение возможностей BCI (Brain-Computer Interface) для создания иммерсивных пользовательских интерфейсов. Исследование взаимодействия мозг-компьютер в контексте UX/UI дизайна.\n\nНаправления: EEG-интерфейсы, когнитивная нагрузка, attention tracking.',
+    image: undefined
   },
   {
     id: 'dev-2',
     title: 'Децентрализованная идентичность',
     type: 'development',
-    description: 'Прототип системы Self-Sovereign Identity на основе DID-стандартов.',
     year: '2023',
-    tags: ['DID', 'Web3', 'Identity']
+    description: 'Система Self-Sovereign Identity на DID-стандартах.',
+    fullDescription: 'Прототип системы Self-Sovereign Identity на основе DID-стандартов (Decentralized Identifiers). Управление цифровой идентичностью без посредников.\n\nСтандарты: DID, Verifiable Credentials, Web3 Authentication.',
+    image: undefined
   },
   {
     id: 'arch-3',
     title: 'Параметрическая архитектура',
     type: 'case',
-    description: 'Алгоритмический дизайн архитектурных форм с использованием Grasshopper.',
     year: '2024',
-    tags: ['Parametric', 'Rhino', 'Design'],
+    description: 'Алгоритмический дизайн архитектурных форм.',
+    fullDescription: 'Алгоритмический дизайн архитектурных форм с использованием Grasshopper и Rhino. Создание сложных геометрий через параметрические алгоритмы.\n\nИнструменты: Grasshopper, Rhino, Python scripting, Ladybug.',
     image: '/architecture/image_2024-08-21_21-32-44.png'
   },
   {
     id: 'research-3',
     title: 'DeFi протоколы ликвидности',
     type: 'research',
-    description: 'Анализ эффективности AMM-моделей и оптимизация slippage.',
     year: '2023',
-    tags: ['DeFi', 'Research', 'AMM']
+    description: 'Анализ AMM-моделей и оптимизация slippage.',
+    fullDescription: 'Анализ эффективности AMM-моделей (Automated Market Maker) и оптимизация slippage в децентрализованных биржах. Исследование concentrated liquidity и impermanent loss.\n\nПротоколы: Uniswap v3, Curve, Balancer.',
+    image: undefined
   }
 ]
 
@@ -93,85 +98,14 @@ const typeLabels = {
   case: 'КЕЙС'
 }
 
-function CaseCard({ item, index }: { item: CaseItem; index: number }) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <div
-      className="case-card group relative overflow-hidden bg-bg-secondary border border-border-subtle transition-all duration-500 hover:border-border-hover hover:bg-bg-tertiary"
-      style={{
-        transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Image or gradient */}
-      <div className="aspect-[16/10] overflow-hidden relative">
-        {item.image ? (
-          <img
-            src={item.image}
-            alt={item.title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-bg-tertiary">
-            <span className="text-4xl text-text-muted opacity-50">
-              {item.type === 'research' && '◉'}
-              {item.type === 'development' && '◈'}
-              {item.type === 'case' && '◆'}
-            </span>
-          </div>
-        )}
-        
-        {/* Type badge */}
-        <div className="absolute top-3 left-3 px-2 py-1 text-[9px] font-bold tracking-wider bg-bg-primary/80 text-text-secondary border border-border-subtle">
-          {typeLabels[item.type]}
-        </div>
-
-        {/* Year */}
-        <div className="absolute top-3 right-3 text-[10px] text-text-tertiary font-mono">
-          {item.year}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-4">
-        <h3 className="text-sm font-bold text-text-primary mb-2 line-clamp-2 group-hover:text-white transition-colors">
-          {item.title}
-        </h3>
-        <p className="text-[11px] text-text-secondary leading-relaxed line-clamp-2 mb-3">
-          {item.description}
-        </p>
-        
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1">
-          {item.tags.map(tag => (
-            <span 
-              key={tag}
-              className="px-2 py-0.5 text-[9px] bg-bg-primary text-text-tertiary border border-border-subtle"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Hover line */}
-      <div 
-        className="absolute bottom-0 left-0 h-px bg-text-secondary transition-all duration-300"
-        style={{ width: isHovered ? '100%' : '0%' }}
-      />
-    </div>
-  )
-}
-
 export function CasesScreen() {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const [filter, setFilter] = useState<'all' | 'research' | 'development' | 'case'>('all')
+  const [selectedCase, setSelectedCase] = useState<CaseItem | null>(null)
 
-  const filteredCases = filter === 'all' 
-    ? cases 
-    : cases.filter(c => c.type === filter)
+  const totalCount = cases.length
+  const researchCount = cases.filter(c => c.type === 'research').length
+  const devCount = cases.filter(c => c.type === 'development').length
+  const caseCount = cases.filter(c => c.type === 'case').length
 
   useGSAP(() => {
     const ctx = gsap.context(() => {
@@ -190,32 +124,16 @@ export function CasesScreen() {
         }
       )
 
-      gsap.fromTo('.filter-btn',
+      gsap.fromTo('.case-btn',
         { y: 20, opacity: 0 },
         {
           y: 0,
           opacity: 1,
           duration: 0.5,
-          stagger: 0.1,
+          stagger: 0.05,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: '.filter-container',
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-          }
-        }
-      )
-
-      gsap.fromTo('.case-card',
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          stagger: 0.06,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.cases-grid',
+            trigger: '.cases-buttons',
             start: 'top 85%',
             toggleActions: 'play none none reverse'
           }
@@ -232,64 +150,116 @@ export function CasesScreen() {
       ref={sectionRef}
       className="section bg-bg-primary relative overflow-hidden"
     >
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-30">
-        <div 
-          className="w-full h-full dot-pattern"
-        />
-      </div>
+      {/* Background */}
+      <div className="absolute inset-0 dot-pattern opacity-20" />
 
       <div className="container mx-auto px-4 py-20 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="cases-title text-3xl md:text-5xl font-black mb-4 text-text-primary tracking-tight">
-            КЕЙСЫ <span className="text-text-tertiary">&</span> ИССЛЕДОВАНИЯ
+          <h2 className="cases-title text-3xl md:text-5xl font-black mb-4 text-text-primary tracking-tight uppercase">
+            Исследования и разработки
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">
-            Архив проектов, научных работ и экспериментальных разработок
+            Научно-творческий подход к решению сложных задач
           </p>
         </div>
 
-        {/* Filters */}
-        <div className="filter-container flex flex-wrap justify-center gap-2 mb-12">
-          {(['all', 'case', 'research', 'development'] as const).map((type) => (
-            <button
-              key={type}
-              onClick={() => setFilter(type)}
-              className={`filter-btn px-4 py-2 text-xs font-medium border transition-all duration-300 ${
-                filter === type 
-                  ? 'bg-text-primary text-bg-primary border-text-primary' 
-                  : 'bg-transparent text-text-secondary border-border-subtle hover:border-border-hover hover:text-text-primary'
-              }`}
-            >
-              {type === 'all' && 'ВСЕ'}
-              {type === 'case' && 'КЕЙСЫ'}
-              {type === 'research' && 'ИССЛЕДОВАНИЯ'}
-              {type === 'development' && 'РАЗРАБОТКИ'}
-            </button>
-          ))}
-        </div>
+        {/* Main Content Area */}
+        <div className="max-w-4xl mx-auto">
+          {selectedCase ? (
+            <div className="bg-bg-secondary border border-border-subtle p-8 mb-8 animate-fade-in">
+              <div className="flex justify-between items-start mb-6">
+                <div className="flex items-center gap-4">
+                  {selectedCase.image && (
+                    <img 
+                      src={selectedCase.image} 
+                      alt={selectedCase.title}
+                      className="w-24 h-24 object-cover border border-border-subtle"
+                    />
+                  )}
+                  <div>
+                    <span className="text-xs text-text-tertiary tracking-wider uppercase">
+                      {typeLabels[selectedCase.type]} · {selectedCase.year}
+                    </span>
+                    <h3 className="text-2xl font-bold text-text-primary mt-1">
+                      {selectedCase.title}
+                    </h3>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setSelectedCase(null)}
+                  className="text-text-tertiary hover:text-text-primary text-xl"
+                >
+                  ✕
+                </button>
+              </div>
 
-        {/* Grid */}
-        <div className="cases-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {filteredCases.map((item, index) => (
-            <CaseCard key={item.id} item={item} index={index} />
-          ))}
-        </div>
+              <div className="prose prose-invert prose-sm max-w-none">
+                <p className="text-text-secondary leading-relaxed whitespace-pre-line">
+                  {selectedCase.fullDescription}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-bg-secondary border border-border-subtle p-8 mb-8">
+              <h3 className="text-xl font-bold text-text-primary mb-4 uppercase tracking-wider">
+                Методология
+              </h3>
+              <p className="text-text-secondary leading-relaxed mb-6">
+                Мой подход сочетает научную строгость с креативной свободой. 
+                Каждый проект начинается с глубокого исследования и анализа, 
+                за которым следует этап экспериментов и прототипирования. 
+                Результат — решения, основанные на данных, но воплощённые 
+                через призму творческого видения.
+              </p>
+              <p className="text-text-secondary leading-relaxed">
+                В архиве представлены кейсы из различных областей: от архитектурной 
+                визуализации до блокчейн-исследований. Выберите проект ниже, 
+                чтобы узнать подробнее.
+              </p>
+            </div>
+          )}
 
-        {/* Stats */}
-        <div className="mt-16 grid grid-cols-3 gap-4 max-w-2xl mx-auto">
-          <div className="text-center p-4 border border-border-subtle bg-bg-secondary">
-            <div className="text-2xl font-bold text-text-primary">{cases.filter(c => c.type === 'case').length}</div>
-            <div className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">Кейсов</div>
+          {/* Project Buttons */}
+          <div className="cases-buttons grid grid-cols-2 md:grid-cols-4 gap-2 mb-12">
+            {cases.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setSelectedCase(item)}
+                className={`case-btn p-3 text-left border transition-all duration-300 ${
+                  selectedCase?.id === item.id
+                    ? 'bg-text-primary text-bg-primary border-text-primary'
+                    : 'bg-bg-secondary border-border-subtle hover:border-border-hover'
+                }`}
+              >
+                <span className="text-[9px] tracking-wider uppercase opacity-60 block mb-1">
+                  {typeLabels[item.type]}
+                </span>
+                <span className="text-xs font-medium line-clamp-2">
+                  {item.title}
+                </span>
+              </button>
+            ))}
           </div>
-          <div className="text-center p-4 border border-border-subtle bg-bg-secondary">
-            <div className="text-2xl font-bold text-text-primary">{cases.filter(c => c.type === 'research').length}</div>
-            <div className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">Исследований</div>
-          </div>
-          <div className="text-center p-4 border border-border-subtle bg-bg-secondary">
-            <div className="text-2xl font-bold text-text-primary">{cases.filter(c => c.type === 'development').length}</div>
-            <div className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">Разработок</div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-4 gap-4 border-t border-border-subtle pt-8">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-text-primary">{totalCount}</div>
+              <div className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">Всего</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-text-primary">{caseCount}</div>
+              <div className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">Кейсов</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-text-primary">{researchCount}</div>
+              <div className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">Исследований</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-text-primary">{devCount}</div>
+              <div className="text-[10px] text-text-tertiary uppercase tracking-wider mt-1">Разработок</div>
+            </div>
           </div>
         </div>
       </div>

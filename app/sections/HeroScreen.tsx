@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { PixelColumns } from '../components/PixelColumns'
 import { PixelCanvas } from '../components/PixelCanvas'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
@@ -27,34 +26,36 @@ export function HeroScreen() {
 
     const tl = gsap.timeline()
 
-    // Animate text with stagger
-    tl.fromTo('.hero-title',
-      { y: 60, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' },
+    // Top right image
+    tl.fromTo('.hero-img-top',
+      { x: 100, y: -100, opacity: 0 },
+      { x: 0, y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' },
+      0.3
+    )
+
+    // Bottom left image
+    tl.fromTo('.hero-img-bottom',
+      { x: -100, y: 100, opacity: 0 },
+      { x: 0, y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' },
       0.5
     )
-    
-    tl.fromTo('.hero-subtitle',
+
+    // Main text
+    tl.fromTo('.hero-foxampy',
       { y: 40, opacity: 0 },
       { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
       0.8
     )
 
-    tl.fromTo('.hero-description',
+    tl.fromTo('.hero-name',
       { y: 30, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
       1.0
     )
 
-    tl.fromTo('.hero-portrait',
-      { x: 80, opacity: 0 },
-      { x: 0, opacity: 1, duration: 1.2, ease: 'power3.out' },
-      0.3
-    )
-
-    tl.fromTo('.hero-tag',
+    tl.fromTo('.hero-role',
       { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'power2.out' },
+      { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' },
       1.2
     )
 
@@ -62,87 +63,51 @@ export function HeroScreen() {
   }, [isLoaded])
 
   return (
-    <section id="hero" className="section bg-bg-primary relative overflow-hidden">
+    <section id="hero" className="min-h-screen w-full bg-bg-primary relative overflow-hidden flex items-center justify-center">
       {/* Subtle grid background */}
-      <div className="absolute inset-0 grid-pattern opacity-50" />
-      
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-primary/80" />
+      <div className="absolute inset-0 grid-pattern opacity-30" />
 
-      <div className="container mx-auto px-4 h-full flex flex-col justify-center relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-screen py-20">
-          
-          {/* Left side - Columns */}
-          <div className="flex flex-col items-center lg:items-start">
-            <PixelColumns />
-            
-            <div className="mt-8 text-center lg:text-left">
-              <h1 className="hero-title text-4xl md:text-6xl font-black mb-2 tracking-tight">
-                <span className="gradient-text">TIMUR</span>
-              </h1>
-              <h2 className="hero-subtitle text-2xl md:text-3xl font-light text-text-secondary tracking-[0.3em]">
-                CADIK
-              </h2>
-            </div>
-          </div>
-
-          {/* Right side - Portrait */}
-          <div className="hero-portrait flex flex-col items-center lg:items-end">
-            <div className="relative">
-              {/* Subtle glow */}
-              <div className="absolute -inset-4 bg-white/5 blur-3xl rounded-full" />
-              
-              {/* Pixel portraits */}
-              <div className="relative flex gap-4">
-                {pixelData1 && (
-                  <PixelCanvas 
-                    data={pixelData1} 
-                    pixelScale={2.5}
-                    className="opacity-90"
-                  />
-                )}
-                {pixelData2 && (
-                  <PixelCanvas 
-                    data={pixelData2} 
-                    pixelScale={2.5}
-                    className="opacity-60 hidden md:block"
-                  />
-                )}
-              </div>
-
-              {/* Decorative frame - monochrome */}
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 border-r border-b border-text-tertiary/50" />
-              <div className="absolute -top-4 -left-4 w-24 h-24 border-l border-t border-text-tertiary/50" />
-            </div>
-
-            {/* Description */}
-            <div className="hero-description mt-8 max-w-md text-right">
-              <p className="text-text-secondary text-sm md:text-base leading-relaxed">
-                Создаю устойчивые системы на пересечении бизнеса, 
-                дизайна и технологий. Работаю с комплексными проектами, 
-                требующими системного подхода и междисциплинарного мышления.
-              </p>
-              
-              <div className="mt-6 flex gap-3 justify-end flex-wrap">
-                <span className="hero-tag px-3 py-1 text-xs border border-border-default text-text-secondary rounded-full hover:border-border-hover transition-colors">
-                  Blockchain
-                </span>
-                <span className="hero-tag px-3 py-1 text-xs border border-border-default text-text-secondary rounded-full hover:border-border-hover transition-colors">
-                  AI
-                </span>
-                <span className="hero-tag px-3 py-1 text-xs border border-border-default text-text-secondary rounded-full hover:border-border-hover transition-colors">
-                  Design
-                </span>
-              </div>
-            </div>
-          </div>
+      {/* Top Right Image */}
+      <div className="hero-img-top absolute top-4 right-4 md:top-8 md:right-8 lg:top-12 lg:right-12 z-10">
+        <div className="relative">
+          {pixelData1 && (
+            <PixelCanvas 
+              data={pixelData1} 
+              pixelScale={2}
+              className="opacity-80"
+              monochrome
+            />
+          )}
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-        <span className="text-[10px] tracking-[0.3em] text-text-tertiary uppercase">Scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-text-tertiary to-transparent" />
+      {/* Bottom Left Image */}
+      <div className="hero-img-bottom absolute bottom-4 left-4 md:bottom-8 md:left-8 lg:bottom-12 lg:left-12 z-10">
+        <div className="relative">
+          {pixelData2 && (
+            <PixelCanvas 
+              data={pixelData2} 
+              pixelScale={2}
+              className="opacity-60"
+              monochrome
+            />
+          )}
+        </div>
+      </div>
+
+      {/* Center Text Content */}
+      <div className="relative z-20 text-center px-4">
+        <h1 className="hero-foxampy text-lg md:text-xl lg:text-2xl font-light tracking-[0.5em] text-text-secondary mb-4 md:mb-6">
+          — FOXAMPY —
+        </h1>
+        
+        <h2 className="hero-name text-4xl md:text-6xl lg:text-8xl font-black text-text-primary tracking-tight mb-2 md:mb-4">
+          Timur Cadik
+        </h2>
+        
+        <p className="hero-role text-sm md:text-base lg:text-lg text-text-secondary tracking-[0.3em] uppercase">
+          креативный инноватор
+        </p>
       </div>
     </section>
   )

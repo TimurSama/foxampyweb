@@ -6,6 +6,7 @@ import { NeuroPlanetScreen } from './sections/NeuroPlanetScreen'
 import { ProjectsScreen } from './sections/ProjectsScreen'
 import { GalleryScreen } from './sections/GalleryScreen'
 import { CasesScreen } from './sections/CasesScreen'
+import { ContactButton } from './components/ContactButton'
 
 function LoadingScreen() {
   return (
@@ -93,12 +94,10 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Safety timeout - show content after 2 seconds anyway
     const timeoutId = setTimeout(() => {
       setIsLoading(false)
     }, 2000)
 
-    // Try to load data
     Promise.all([
       fetch('/data/pixel-portrait-1.json').then(r => r.json()).catch(() => null),
       fetch('/data/pixel-portrait-2.json').then(r => r.json()).catch(() => null)
@@ -123,6 +122,7 @@ export default function Home() {
       <ProjectsScreen />
       <GalleryScreen />
       <CasesScreen />
+      <ContactButton />
     </main>
   )
 }

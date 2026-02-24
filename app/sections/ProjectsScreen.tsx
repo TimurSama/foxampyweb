@@ -56,27 +56,6 @@ const projects: Project[] = [
   }
 ]
 
-// Hexagon background component
-function HexagonGrid() {
-  return (
-    <div className="absolute inset-0 overflow-hidden opacity-20">
-      <svg width="100%" height="100%" className="absolute inset-0">
-        <defs>
-          <pattern id="hexagons-mono" width="60" height="52" patternUnits="userSpaceOnUse" patternTransform="scale(2)">
-            <path 
-              d="M30 0 L60 13 L60 39 L30 52 L0 39 L0 13 Z" 
-              fill="none" 
-              stroke="#444444" 
-              strokeWidth="0.5"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#hexagons-mono)" />
-      </svg>
-    </div>
-  )
-}
-
 interface ProjectModalProps {
   project: Project | null
   onClose: () => void
@@ -91,7 +70,7 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
       onClick={onClose}
     >
       <div 
-        className="w-full max-w-2xl p-8 relative bg-bg-secondary border border-border-subtle rounded-lg"
+        className="bg-bg-secondary border border-border-subtle w-full max-w-2xl p-8 relative"
         onClick={e => e.stopPropagation()}
       >
         <button 
@@ -110,25 +89,18 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
           {project.description}
         </p>
 
-        <div className="flex items-center gap-4 mb-6">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-text-secondary" />
-            <span className="text-xs text-text-tertiary">{project.status}</span>
-          </div>
-        </div>
-
         <div className="flex flex-wrap gap-2 mb-6">
           {project.technologies.map(tech => (
             <span 
               key={tech}
-              className="px-3 py-1 text-xs bg-bg-tertiary text-text-secondary rounded-full border border-border-subtle"
+              className="px-3 py-1 text-xs bg-bg-primary text-text-secondary border border-border-subtle"
             >
               {tech}
             </span>
           ))}
         </div>
 
-        <button className="w-full py-3 bg-text-primary text-bg-primary font-medium rounded hover:bg-text-secondary transition-colors">
+        <button className="px-6 py-3 bg-text-primary text-bg-primary font-medium hover:bg-text-secondary transition-colors">
           Открыть проект
         </button>
       </div>
@@ -181,14 +153,15 @@ export function ProjectsScreen() {
     <section 
       id="projects" 
       ref={sectionRef}
-      className="section bg-bg-secondary relative overflow-hidden"
+      className="section bg-bg-primary relative overflow-hidden"
     >
-      <HexagonGrid />
+      {/* Background pattern - same as everywhere */}
+      <div className="absolute inset-0 grid-pattern opacity-20" />
 
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="projects-title text-3xl md:text-5xl font-black text-text-primary mb-4 tracking-tight">
-            ПРОЕКТЫ
+          <h2 className="projects-title text-3xl md:text-5xl font-black text-text-primary mb-4 tracking-tight uppercase">
+            Проекты
           </h2>
           <p className="text-text-secondary max-w-xl mx-auto">
             Экосистема цифровых решений на стыке технологий и бизнеса
@@ -200,7 +173,7 @@ export function ProjectsScreen() {
           {projects.map((project) => (
             <div
               key={project.id}
-              className="project-card bg-bg-tertiary border border-border-subtle p-6 cursor-pointer transition-all duration-300 hover:border-border-hover hover:bg-bg-elevated group"
+              className="project-card bg-bg-secondary border border-border-subtle p-6 cursor-pointer transition-all duration-300 hover:border-border-hover hover:bg-bg-tertiary group"
               onClick={() => setSelectedProject(project)}
             >
               <div className="flex justify-between items-start mb-4">
@@ -223,7 +196,7 @@ export function ProjectsScreen() {
                 {project.technologies.map(tech => (
                   <span 
                     key={tech}
-                    className="px-2 py-1 text-[10px] bg-bg-primary text-text-tertiary rounded border border-border-subtle"
+                    className="px-2 py-1 text-[10px] bg-bg-primary text-text-tertiary border border-border-subtle"
                   >
                     {tech}
                   </span>
@@ -232,7 +205,7 @@ export function ProjectsScreen() {
 
               <div className="flex items-center justify-between">
                 <span className="text-xs text-text-tertiary">{project.status}</span>
-                <button className="px-4 py-2 text-xs font-medium text-text-primary bg-bg-primary rounded hover:bg-bg-secondary transition-colors border border-border-subtle">
+                <button className="px-4 py-2 text-xs font-medium text-text-primary bg-bg-primary border border-border-subtle hover:bg-bg-secondary transition-colors">
                   Подробнее
                 </button>
               </div>

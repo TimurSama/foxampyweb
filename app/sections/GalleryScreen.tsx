@@ -7,75 +7,69 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Monochrome wave dots background
-function WaveBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+// Architecture gallery component
+function ArchitectureGallery() {
+  const [images, setImages] = useState<string[]>([])
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    let animationId: number
-    let time = 0
-
-    const resize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-    }
-
-    const draw = () => {
-      ctx.fillStyle = '#0a0a0a'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-      const cols = Math.ceil(canvas.width / 40)
-      const rows = Math.ceil(canvas.height / 40)
-
-      for (let y = 0; y < rows; y++) {
-        for (let x = 0; x < cols; x++) {
-          const waveX = Math.sin(y * 0.08 + time) * 15
-          const waveY = Math.cos(x * 0.08 + time) * 8
-          
-          const px = x * 40 + waveX
-          const py = y * 40 + waveY
-          
-          const distFromCenter = Math.sqrt(
-            Math.pow(px - canvas.width / 2, 2) + 
-            Math.pow(py - canvas.height / 2, 2)
-          )
-          
-          const opacity = Math.max(0, 1 - distFromCenter / 600) * 0.3
-          
-          ctx.beginPath()
-          ctx.arc(px, py, 1.5, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`
-          ctx.fill()
-        }
-      }
-
-      time += 0.015
-      animationId = requestAnimationFrame(draw)
-    }
-
-    resize()
-    draw()
-
-    window.addEventListener('resize', resize)
-
-    return () => {
-      cancelAnimationFrame(animationId)
-      window.removeEventListener('resize', resize)
-    }
+    // Scan architecture folder
+    const archImages = [
+      '/architecture/image_2024-08-21_21-32-32.png',
+      '/architecture/image_2024-08-21_21-32-39.png',
+      '/architecture/image_2024-08-21_21-32-44.png',
+    ]
+    setImages(archImages)
   }, [])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0"
-      style={{ opacity: 0.4 }}
-    />
+    <div className="mb-20">
+      <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-text-primary tracking-wide uppercase">
+        <span className="w-8 h-px bg-text-tertiary" />
+        Дизайн архитектуры интерьеров и пространств
+      </h3>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        {images.map((src, i) => (
+          <div
+            key={i}
+            className="arch-item aspect-[4/3] overflow-hidden cursor-pointer group relative border border-border-subtle"
+            onClick={() => setSelectedImage(src)}
+          >
+            <img
+              src={src}
+              alt={`Architecture ${i + 1}`}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <span className="text-[10px] text-white/70 tracking-wider uppercase">Проект 0{i + 1}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Lightbox */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <img 
+            src={selectedImage} 
+            alt="Selected" 
+            className="max-w-full max-h-full object-contain"
+          />
+          <button 
+            className="absolute top-4 right-4 text-text-secondary hover:text-text-primary text-2xl transition-colors"
+            onClick={() => setSelectedImage(null)}
+          >
+            ✕
+          </button>
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -100,9 +94,9 @@ function FashionGallery() {
 
   return (
     <div className="mb-20">
-      <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-text-primary tracking-wide">
+      <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-text-primary tracking-wide uppercase">
         <span className="w-8 h-px bg-text-tertiary" />
-        ДИЗАЙНЕРСКАЯ КОЛЛЕКЦИЯ
+        Дизайнерская коллекция
       </h3>
       
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -168,9 +162,9 @@ function VideoShowcase() {
 
   return (
     <div>
-      <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-text-primary tracking-wide">
+      <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-text-primary tracking-wide uppercase">
         <span className="w-8 h-px bg-text-tertiary" />
-        ВИДЕОРЕЛИЗЫ
+        Видеорелизы
       </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -214,6 +208,22 @@ export function GalleryScreen() {
 
   useGSAP(() => {
     const ctx = gsap.context(() => {
+      gsap.fromTo('.arch-item',
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.arch-item',
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      )
+
       gsap.fromTo('.gallery-item',
         { y: 40, opacity: 0 },
         {
@@ -271,18 +281,20 @@ export function GalleryScreen() {
       ref={sectionRef}
       className="section bg-bg-primary relative overflow-hidden"
     >
-      <WaveBackground />
+      {/* Background */}
+      <div className="absolute inset-0 grid-pattern opacity-20" />
       
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="gallery-title text-3xl md:text-5xl font-black mb-4 text-text-primary tracking-tight">
-            ГАЛЕРЕЯ
+          <h2 className="gallery-title text-3xl md:text-5xl font-black mb-4 text-text-primary tracking-tight uppercase">
+            Галерея
           </h2>
           <p className="text-text-secondary max-w-xl mx-auto">
             Визуальные исследования и креативные проекты
           </p>
         </div>
 
+        <ArchitectureGallery />
         <FashionGallery />
         <VideoShowcase />
       </div>
