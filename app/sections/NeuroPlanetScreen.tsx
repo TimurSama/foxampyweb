@@ -12,7 +12,7 @@ interface Stage {
   name: string
   nameEn: string
   icon: string
-  description: string
+  shortDesc: string
   details: string[]
 }
 
@@ -22,12 +22,13 @@ const stages: Stage[] = [
     name: 'Исследование',
     nameEn: 'RESEARCH',
     icon: '◉',
-    description: 'Погружение в контекст задачи',
+    shortDesc: 'Погружение в контекст задачи',
     details: [
       'Анализ рынка и конкурентов',
       'Изучение целевой аудитории',
       'Сбор инсайтов и данных',
-      'Формирование гипотез'
+      'Формирование гипотез',
+      'Аудит текущих решений'
     ]
   },
   {
@@ -35,12 +36,13 @@ const stages: Stage[] = [
     name: 'Концепция',
     nameEn: 'CONCEPT',
     icon: '◈',
-    description: 'Разработка видения проекта',
+    shortDesc: 'Разработка видения проекта',
     details: [
-      'Генерация идей',
-      'Позиционирование',
+      'Генерация идей и подходов',
+      'Позиционирование и УТП',
       'Креативные концепты',
-      'Визуальные метафоры'
+      'Визуальные метафоры',
+      'Тестирование гипотез'
     ]
   },
   {
@@ -48,25 +50,27 @@ const stages: Stage[] = [
     name: 'Проектирование',
     nameEn: 'DESIGN',
     icon: '◆',
-    description: 'Создание архитектуры решения',
+    shortDesc: 'Создание структуры решения',
     details: [
-      'Информационная архитектура',
-      'UX/UI проектирование',
+      'Архитектура системы',
+      'Стратегия реализации',
+      'Планирование ресурсов',
       'Прототипирование',
-      'Дизайн-система'
+      'Визуализация концепции'
     ]
   },
   {
     id: 4,
     name: 'Разработка',
-    nameEn: 'DEVELOP',
+    nameEn: 'BUILD',
     icon: '▣',
-    description: 'Техническая реализация',
+    shortDesc: 'Реализация и производство',
     details: [
-      'Frontend разработка',
-      'Backend и API',
-      'Blockchain интеграция',
-      'Тестирование'
+      'Создание продукта',
+      'Техническая реализация',
+      'Производственные процессы',
+      'Интеграция компонентов',
+      'Контроль качества'
     ]
   },
   {
@@ -74,12 +78,13 @@ const stages: Stage[] = [
     name: 'Запуск',
     nameEn: 'LAUNCH',
     icon: '▲',
-    description: 'Вывод продукта на рынок',
+    shortDesc: 'Вывод на рынок',
     details: [
       'Go-to-market стратегия',
       'Маркетинговые кампании',
       'PR и коммуникации',
-      'Сбор обратной связи'
+      'Сбор обратной связи',
+      'Первичная аналитика'
     ]
   },
   {
@@ -87,99 +92,94 @@ const stages: Stage[] = [
     name: 'Развитие',
     nameEn: 'SCALE',
     icon: '◊',
-    description: 'Масштабирование продукта',
+    shortDesc: 'Масштабирование',
     details: [
       'Продуктовая аналитика',
       'Оптимизация процессов',
       'Выход на новые рынки',
-      'Итерации и улучшения'
+      'Итерации и улучшения',
+      'Долгосрочное развитие'
     ]
   }
 ]
 
-function StageCard({ stage, isActive, onClick }: { stage: Stage; isActive: boolean; onClick: () => void }) {
+function StageCard({ stage, isExpanded, onClick }: { stage: Stage; isExpanded: boolean; onClick: () => void }) {
   return (
     <div
       onClick={onClick}
       className={`
-        stage-card relative p-6 border cursor-pointer transition-all duration-300
-        ${isActive 
-          ? 'bg-text-primary text-bg-primary border-text-primary' 
-          : 'bg-bg-secondary border-border-subtle hover:border-text-tertiary'
+        stage-card relative p-6 cursor-pointer transition-all duration-300
+        ${isExpanded 
+          ? 'bg-bg-tertiary shadow-[inset_4px_4px_8px_rgba(0,0,0,0.5),inset_-4px_-4px_8px_rgba(255,255,255,0.05)]' 
+          : 'bg-bg-secondary shadow-[4px_4px_8px_rgba(0,0,0,0.5),-4px_-4px_8px_rgba(255,255,255,0.05)] hover:shadow-[6px_6px_12px_rgba(0,0,0,0.5),-6px_-6px_12px_rgba(255,255,255,0.05)]'
         }
+        border border-border-subtle
       `}
     >
+      {/* Corner detail button */}
+      <div className={`
+        absolute top-0 right-0 w-8 h-8 flex items-center justify-center
+        text-[10px] font-pixel uppercase tracking-wider
+        ${isExpanded 
+          ? 'bg-bg-primary text-text-secondary' 
+          : 'bg-text-primary text-bg-primary'
+        }
+      `}>
+        {isExpanded ? '×' : '→'}
+      </div>
+
       {/* Number */}
-      <div className={`text-xs font-pixel mb-4 ${isActive ? 'text-bg-primary' : 'text-text-tertiary'}`}>
+      <div className={`text-xs font-pixel mb-4 ${isExpanded ? 'text-text-tertiary' : 'text-text-tertiary'}`}>
         0{stage.id}
       </div>
 
       {/* Icon */}
-      <div className={`text-3xl mb-3 font-pixel ${isActive ? 'text-bg-primary' : 'text-text-secondary'}`}>
+      <div className={`text-3xl mb-3 font-pixel ${isExpanded ? 'text-text-primary' : 'text-text-secondary'}`}>
         {stage.icon}
       </div>
 
       {/* Name */}
-      <h3 className={`text-lg font-bold mb-1 uppercase tracking-wider ${isActive ? 'text-bg-primary' : 'text-text-primary'}`}>
+      <h3 className={`text-lg font-bold mb-1 uppercase tracking-wider ${isExpanded ? 'text-text-primary' : 'text-text-primary'}`}>
         {stage.name}
       </h3>
-      <p className={`text-xs uppercase tracking-widest mb-3 ${isActive ? 'text-bg-primary/70' : 'text-text-tertiary'}`}>
+      <p className={`text-xs uppercase tracking-widest mb-3 ${isExpanded ? 'text-text-tertiary' : 'text-text-tertiary'}`}>
         {stage.nameEn}
       </p>
 
-      {/* Short description */}
-      <p className={`text-sm ${isActive ? 'text-bg-primary/80' : 'text-text-secondary'}`}>
-        {stage.description}
-      </p>
+      {!isExpanded ? (
+        /* Short description - shown when collapsed */
+        <p className="text-sm text-text-secondary">
+          {stage.shortDesc}
+        </p>
+      ) : (
+        /* Expanded details - shown when clicked */
+        <div className="mt-4 pt-4 border-t border-border-subtle animate-fade-in">
+          <p className="text-xs text-text-tertiary uppercase tracking-wider mb-3">
+            Методология:
+          </p>
+          <ul className="space-y-2">
+            {stage.details.map((detail, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm text-text-secondary">
+                <span className="text-text-tertiary mt-1">▸</span>
+                <span>{detail}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Pixel corner decoration */}
       <div className={`
-        absolute top-0 right-0 w-3 h-3
-        ${isActive ? 'bg-bg-primary' : 'bg-text-primary'}
+        absolute bottom-0 left-0 w-2 h-2
+        ${isExpanded ? 'bg-text-tertiary' : 'bg-text-primary'}
       `} />
-    </div>
-  )
-}
-
-function DetailPanel({ stage, onClose }: { stage: Stage; onClose: () => void }) {
-  return (
-    <div className="bg-bg-secondary border border-border-subtle p-8 animate-fade-in">
-      <div className="flex justify-between items-start mb-6">
-        <div className="flex items-center gap-4">
-          <span className="text-4xl font-pixel text-text-primary">{stage.icon}</span>
-          <div>
-            <span className="text-xs text-text-tertiary font-pixel">ЭТАП 0{stage.id}</span>
-            <h3 className="text-2xl font-bold text-text-primary uppercase tracking-wider">
-              {stage.name}
-            </h3>
-            <p className="text-sm text-text-tertiary uppercase tracking-widest">{stage.nameEn}</p>
-          </div>
-        </div>
-        <button 
-          onClick={onClose}
-          className="text-text-tertiary hover:text-text-primary text-xl px-2"
-        >
-          ×
-        </button>
-      </div>
-
-      <p className="text-text-secondary mb-6 text-lg">{stage.description}</p>
-
-      <div className="space-y-3">
-        {stage.details.map((detail, i) => (
-          <div key={i} className="flex items-center gap-3">
-            <span className="text-text-tertiary font-pixel text-xs">▸</span>
-            <span className="text-text-primary">{detail}</span>
-          </div>
-        ))}
-      </div>
     </div>
   )
 }
 
 export function NeuroPlanetScreen() {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const [activeStage, setActiveStage] = useState<Stage | null>(null)
+  const [expandedStage, setExpandedStage] = useState<number | null>(null)
 
   useGSAP(() => {
     const ctx = gsap.context(() => {
@@ -230,44 +230,21 @@ export function NeuroPlanetScreen() {
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="cycle-title font-pixel text-xs text-text-tertiary uppercase tracking-[0.3em] mb-4">
-            Рабочий процесс
+          <h2 className="cycle-title text-3xl md:text-5xl font-bold text-text-primary tracking-tight uppercase font-vt323">
+            Рабочий процесс полного цикла
           </h2>
-          <h3 className="text-3xl md:text-5xl font-bold text-text-primary uppercase tracking-tight">
-            Полный цикл
-          </h3>
-          <p className="text-text-secondary mt-4 max-w-xl mx-auto">
-            От исследования до масштабирования — шесть этапов создания продукта
-          </p>
         </div>
 
-        {/* Detail Panel */}
-        {activeStage && (
-          <div className="max-w-3xl mx-auto mb-12">
-            <DetailPanel 
-              stage={activeStage} 
-              onClose={() => setActiveStage(null)} 
-            />
-          </div>
-        )}
-
         {/* Stages Grid */}
-        <div className="stages-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+        <div className="stages-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {stages.map((stage) => (
             <StageCard
               key={stage.id}
               stage={stage}
-              isActive={activeStage?.id === stage.id}
-              onClick={() => setActiveStage(activeStage?.id === stage.id ? null : stage)}
+              isExpanded={expandedStage === stage.id}
+              onClick={() => setExpandedStage(expandedStage === stage.id ? null : stage.id)}
             />
           ))}
-        </div>
-
-        {/* Bottom hint */}
-        <div className="mt-12 text-center">
-          <p className="text-text-tertiary text-sm font-pixel">
-            [ КЛИКНИТЕ НА ЭТАП ДЛЯ ПОДРОБНОСТЕЙ ]
-          </p>
         </div>
       </div>
     </section>
