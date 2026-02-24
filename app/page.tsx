@@ -6,6 +6,7 @@ import { NeuroPlanetScreen } from './sections/NeuroPlanetScreen'
 import { ProjectsScreen } from './sections/ProjectsScreen'
 import { GalleryScreen } from './sections/GalleryScreen'
 import { CasesScreen } from './sections/CasesScreen'
+import { ExperienceScreen } from './sections/ExperienceScreen'
 import { ContactButton } from './components/ContactButton'
 
 function LoadingScreen() {
@@ -32,7 +33,7 @@ function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'neuro', 'projects', 'gallery', 'cases']
+      const sections = ['hero', 'experience', 'neuro', 'projects', 'gallery', 'cases']
       const scrollPos = window.scrollY + window.innerHeight / 3
 
       for (const section of sections) {
@@ -53,10 +54,11 @@ function Navigation() {
 
   const navItems = [
     { id: 'hero', label: '01' },
-    { id: 'neuro', label: '02' },
-    { id: 'projects', label: '03' },
-    { id: 'gallery', label: '04' },
-    { id: 'cases', label: '05' },
+    { id: 'experience', label: '02' },
+    { id: 'neuro', label: '03' },
+    { id: 'projects', label: '04' },
+    { id: 'gallery', label: '05' },
+    { id: 'cases', label: '06' },
   ]
 
   const scrollToSection = (id: string) => {
@@ -118,6 +120,7 @@ export default function Home() {
       <NoiseOverlay />
       <Navigation />
       <HeroScreen />
+      <ExperienceScreen />
       <NeuroPlanetScreen />
       <ProjectsScreen />
       <GalleryScreen />
